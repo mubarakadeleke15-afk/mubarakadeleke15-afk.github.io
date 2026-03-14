@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Innovations - Digital Solutions</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           CUSTOM CSS STYLES
+           ========================================== */
+        
+        /* CSS Variables for easy theming */
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #0ea5e9;
+            --dark-color: #1e293b;
+            --light-color: #f8fafc;
+            --gradient-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-card: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* ==========================================
+           NAVIGATION STYLES
+           ========================================== */
+        
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--primary-color) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand i {
+            font-size: 1.8rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            margin: 0 0.5rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ==========================================
+           HERO SECTION STYLES
+           ========================================== */
+        
+        .hero-section {
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated background shapes */
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -300px;
+            right: -300px;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            animation: float 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, 30px) scale(1.1); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .btn-hero {
+            background: white;
+            color: var(--primary-color);
+            padding: 1rem 2.5rem;
+            font-weight: 600;
+            border-radius: 50px;
+            border: none;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+            background: var(--light-color);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================
+           ABOUT SECTION STYLES
+           ========================================== */
+        
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--gradient-hero);
+            border-radius: 2px;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            color: #64748b;
+            line-height: 1.8;
+            margin-top: 2rem;
+        }
+
+        .mission-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .mission-box h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* ==========================================
+           SERVICES SECTION STYLES
+           ========================================== */
+        
+        .services-section {
+            background: var(--light-color);
+        }
+
+        .service-card {
+            background: white;
+            border: none;
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            height: 100%;
+            transition: all 0.4s ease;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-hero);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-hero);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .service-desc {
+            color: #64748b;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* ==========================================
+           CONTACT SECTION STYLES
+           ========================================== */
+        
+        .contact-section {
+            background: white;
+        }
+
+        .contact-form-wrapper {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .form-control {
+            padding: 1rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .btn-submit {
+            background: var(--gradient-hero);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            opacity: 0.9;
+        }
+
+        .contact-info {
+            padding: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 1.25rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .contact-item h5 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-item p {
+            color: #64748b;
+            margin: 0;
+        }
+
+        /* ==========================================
+           FOOTER STYLES
+           ========================================== */
+        
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 3rem 0 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* ==========================================
+           RESPONSIVE ADJUSTMENTS
+           ========================================== */
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-padding {
+                padding: 4rem 0;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .contact-form-wrapper {
+                padding: 2rem 1.5rem;
+            }
+            
+            .navbar-collapse {
+                background: white;
+                padding: 1rem;
+                border-radius: 12px;
+                margin-top: 1rem;
+                box-shadow: var(--shadow-md);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .btn-hero {
+                padding: 0.875rem 2rem;
+                font-size: 0.9rem;
+            }
+            
+            .service-card {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        /* Utility Classes */
+        .text-gradient {
+            background: var(--gradient-hero);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         NAVIGATION BAR
+         ========================================== -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <!-- Brand Logo -->
+            <a class="navbar-brand" href="#home">
+                <i class="bi bi-hexagon-fill"></i>
+                Nexus Innovations
+            </a>
+            
+            <!-- Mobile Toggle Button -->
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a class="btn btn-primary rounded-pill px-4" href="#contact" style="background: var(--gradient-hero); border: none;">
+                            Get Started
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto text-center hero-content">
+                    <h1 class="hero-title">Transform Your Business With Digital Innovation</h1>
+                    <p class="hero-subtitle mx-auto">
+                        We help businesses grow by providing cutting-edge digital solutions, strategic consulting, and innovative technology implementations that drive real results.
+                    </p>
+                    <a href="#services" class="btn btn-hero btn-lg">
+                        Explore Services <i class="bi bi-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         ABOUT SECTION
+         ========================================== -->
+    <section id="about" class="section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">About Us</h2>
+                    <p class="about-text">
+                        Founded in 2020, Nexus Innovations is a forward-thinking digital agency dedicated to helping businesses navigate the complex landscape of modern technology. We combine creativity with technical expertise to deliver solutions that not only meet but exceed expectations.
+                    </p>
+                    <p class="about-text">
+                        Our team of experts brings together diverse skills in software development, design, marketing, and strategy to provide comprehensive digital transformation services.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-6 mb-4">
+                    <div class="mission-box h-100">
+                        <h4><i class="bi bi-bullseye me-2"></i>Our Mission</h4>
+                        <p>To empower businesses with innovative digital solutions that drive growth, efficiency, and competitive advantage in an ever-evolving marketplace.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                    <div class="mission-box h-100">
+                        <h4><i class="bi bi-eye me-2"></i>Our Vision</h4>
+                        <p>To be the leading digital transformation partner for businesses worldwide, recognized for our innovation, integrity, and impact on client success.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         SERVICES SECTION
+         ========================================== -->
+    <section id="services" class="services-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Our Services</h2>
+                    <p class="text-muted mt-4">Comprehensive digital solutions tailored to your business needs</p>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <!-- Service 1: Web Development -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="service-card text-center">
+                        <div class="service-icon mx-auto">
+                            <i class="bi bi-laptop"></i>
+                        </div>
+                        <h3 class="service-title">Web Development</h3>
+                        <p class="service-desc">
+                            Custom websites and web applications built with modern technologies, optimized for performance, security, and user experience.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Service 2: Digital Marketing -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="service-card text-center">
+                        <div class="service-icon mx-auto">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <h3 class="service-title">Digital Marketing</h3>
+                        <p class="service-desc">
+                            Data-driven marketing strategies including SEO, social media management, and content marketing to grow your online presence.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Service 3: Cloud Solutions -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="service-card text-center">
+                        <div class="service-icon mx-auto">
+                            <i class="bi bi-cloud-check"></i>
+                        </div>
+                        <h3 class="service-title">Cloud Solutions</h3>
+                        <p class="service-desc">
+                            Scalable cloud infrastructure setup, migration services, and management to optimize your operations and reduce costs.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Service 4: UI/UX Design -->
+                <div class="col-md-6 col-lg-3">
+                    <div class="service-card text-center">
+                        <div class="service-icon mx-auto">
+                            <i class="bi bi-palette"></i>
+                        </div>
+                        <h3 class="service-title">UI/UX Design</h3>
+                        <p class="service-desc">
+                            User-centered design solutions that create intuitive, engaging interfaces and delightful user experiences for your products.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         CONTACT SECTION
+         ========================================== -->
+    <section id="contact" class="contact-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center mb-5">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Get In Touch</h2>
+                    <p class="text-muted mt-4">Ready to start your project? Contact us today for a free consultation.</p>
+                </div>
+            </div>
+            
+            <div class="row g-5 align-items-start">
+                <!-- Contact Form -->
+                <div class="col-lg-7">
+                    <div class="contact-form-wrapper">
+                        <form id="contactForm" novalidate>
+                            <!-- Name Field -->
+                            <div class="mb-4">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required minlength="2">
+                                <div class="invalid-feedback">Please enter your name (at least 2 characters).</div>
+                            </div>
+                            
+                            <!-- Email Field -->
+                            <div class="mb-4">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            
+                            <!-- Message Field -->
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" placeholder="Tell us about your project..." required minlength="10"></textarea>
+                                <div class="invalid-feedback">Please enter a message (at least 10 characters).</div>
+                            </div>
+                            
+                            <!-- Submit Button -->
+                            <button type="submit" class="btn-submit btn-lg">
+                                <i class="bi bi-send me-2"></i>Send Message
+                            </button>
+                        </form>
+                        
+                        <!-- Success Message (Hidden by default) -->
+                        <div id="successMessage" class="alert alert-success mt-3 d-none" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>Thank you! Your message has been sent successfully.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-geo-alt"></i>
+                            </div>
+                            <div>
+                                <h5>Visit Us</h5>
+                                <p>123 Innovation Drive, Tech District<br>San Francisco, CA 94105</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-envelope"></i>
+                            </div>
+                            <div>
+                                <h5>Email Us</h5>
+                                <p>hello@nexusinnovations.com<br>support@nexusinnovations.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <div>
+                                <h5>Call Us</h5>
+                                <p>+1 (555) 123-4567<br>Mon-Fri, 9am-6pm PST</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 p-4 bg-light rounded-4">
+                            <h5 class="mb-3">Business Hours</h5>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Monday - Friday</span>
+                                <span class="fw-bold">9:00 AM - 6:00 PM</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>Saturday - Sunday</span>
+                                <span class="fw-bold text-muted">Closed</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         FOOTER
+         ========================================== -->
+    <footer class="footer">
+        <div class="container">
+            <!-- Social Media Links -->
+            <div class="social-links">
+                <a href="#" class="social-link" aria-label="Facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Twitter">
+                    <i class="bi bi-twitter-x"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="LinkedIn">
+                    <i class="bi bi-linkedin"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="Instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="#" class="social-link" aria-label="GitHub">
+                    <i class="bi bi-github"></i>
+                </a>
+            </div>
+            
+            <!-- Copyright Text -->
+            <div class="footer-text">
+                <p class="mb-2">&copy; 2024 Nexus Innovations. All rights reserved.</p>
+                <p class="mb-0">Designed with <i class="bi bi-heart-fill text-danger"></i> using Bootstrap 5</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+         BOOTSTRAP JS BUNDLE
+         ========================================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for Form Handling -->
+    <script>
+        // Form validation and submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Check form validity
+            if (this.checkValidity()) {
+                // Simulate form submission success
+                document.getElementById('successMessage').classList.remove('d-none');
+                this.reset();
+                
+                // Hide success message after 5 seconds
+                setTimeout(function() {
+                    document.getElementById('successMessage').classList.add('d-none');
+                }, 5000);
+            } else {
+                // Trigger Bootstrap validation styles
+                e.stopPropagation();
+                this.classList.add('was-validated');
+            }
+        });
+        
+        // Real-time validation feedback
+        const inputs = document.querySelectorAll('.form-control');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.checkValidity()) {
+                    this.classList.remove('is-invalid');
+                    this.classList.add('is-valid');
+                } else {
+                    this.classList.remove('is-valid');
+                    if (this.value !== '') {
+                        this.classList.add('is-invalid');
+                    }
+                }
+            });
+        });
+        
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+            }
+        });
+    </script>
+</body>
+</html>

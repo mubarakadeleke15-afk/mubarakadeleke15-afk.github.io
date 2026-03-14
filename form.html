@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MVP Registration Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --bg: #f3f4f6;
+            --card-bg: #ffffff;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --border: #e5e7eb;
+            --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            color: var(--text);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .form-group:focus-within label {
+            color: var(--primary);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: #fafafa;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        input.error {
+            border-color: var(--error);
+            background: #fef2f2;
+        }
+
+        input.success {
+            border-color: var(--success);
+            background: #f0fdf4;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 13px;
+            margin-top: 6px;
+            display: none;
+            align-items: center;
+            gap: 4px;
+            animation: shake 0.5s;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .gender-group {
+            margin-bottom: 24px;
+        }
+
+        .gender-options {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .gender-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .gender-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .gender-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-weight: 500;
+            gap: 8px;
+        }
+
+        .gender-option input[type="radio"]:checked + .gender-label {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.05);
+            color: var(--primary);
+        }
+
+        .gender-option input[type="radio"]:focus + .gender-label {
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .password-strength {
+            height: 4px;
+            background: var(--border);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .password-strength.show {
+            display: block;
+        }
+
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.3s;
+            border-radius: 2px;
+        }
+
+        .strength-weak { width: 33%; background: var(--error); }
+        .strength-medium { width: 66%; background: var(--warning); }
+        .strength-strong { width: 100%; background: var(--success); }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-btn:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .submit-btn.loading {
+            color: transparent;
+        }
+
+        .submit-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spinner 0.8s linear infinite;
+        }
+
+        @keyframes spinner {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px;
+            animation: scaleIn 0.5s;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            animation: popIn 0.5s 0.2s both;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: scale(0);
+            }
+            80% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .success-icon svg {
+            width: 40px;
+            height: 40px;
+            color: white;
+        }
+
+        .success-message h2 {
+            color: var(--text);
+            font-size: 24px;
+            margin-bottom: 12px;
+        }
+
+        .success-message p {
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px 32px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .reset-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Icons */
+        .icon {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .form-card {
+                padding: 24px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .gender-options {
+                flex-direction: column;
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <!-- Registration Form -->
+            <div id="registrationForm">
+                <div class="header">
+                    <h1>Create Account</h1>
+                    <p>Join us today! Please fill in your information.</p>
+                </div>
+
+                <form id="signupForm" novalidate>
+                    <!-- Full Name -->
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            name="fullName" 
+                            placeholder="John Doe"
+                            autocomplete="name"
+                        >
+                        <div class="error-message" id="fullNameError">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Please enter your full name
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="john@example.com"
+                            autocomplete="email"
+                        >
+                        <div class="error-message" id="emailError">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Please enter a valid email address
+                        </div>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone" 
+                            placeholder="+1 (555) 123-4567"
+                            autocomplete="tel"
+                        >
+                        <div class="error-message" id="phoneError">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Please enter a valid phone number
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="••••••••"
+                            autocomplete="new-password"
+                        >
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="error-message" id="passwordError">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Password must be at least 8 characters with letters and numbers
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            placeholder="••••••••"
+                            autocomplete="new-password"
+                        >
+                        <div class="error-message" id="confirmPasswordError">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Passwords do not match
+                        </div>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="gender-group">
+                        <label>Gender</label>
+                        <div class="gender-options">
+                            <div class="gender-option">
+                                <input type="radio" id="male" name="gender" value="male">
+                                <label for="male" class="gender-label">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                    </svg>
+                                    Male
+                                </label>
+                            </div>
+                            <div class="gender-option">
+                                <input type="radio" id="female" name="gender" value="female">
+                                <label for="female" class="gender-label">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10" stroke-width="2"></circle>
+                                    </svg>
+                                    Female
+                                </label>
+                            </div>
+                            <div class="gender-option">
+                                <input type="radio" id="other" name="gender" value="other">
+                                <label for="other" class="gender-label">
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path>
+                                    </svg>
+                                    Other
+                                </label>
+                            </div>
+                        </div>
+                        <div class="error-message" id="genderError" style="margin-top: 8px;">
+                            <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Please select your gender
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Create Account
+                    </button>
+                </form>
+            </div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message">
+                <div class="success-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h2>Welcome Aboard!</h2>
+                <p>Your account has been successfully created. We've sent a confirmation email to <strong id="successEmail"></strong>.</p>
+                <button class="reset-btn" onclick="resetForm()">Register Another Account</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form elements
+        const form = document.getElementById('signupForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const registrationForm = document.getElementById('registrationForm');
+        
+        // Input fields
+        const fields = {
+            fullName: document.getElementById('fullName'),
+            email: document.getElementById('email'),
+            phone: document.getElementById('phone'),
+            password: document.getElementById('password'),
+            confirmPassword: document.getElementById('confirmPassword'),
+            gender: document.getElementsByName('gender')
+        };
+
+        // Validation patterns
+        const patterns = {
+            email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+            phone: /^[\d\s\-\+\(\)]+$/,
+            password: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,}$/
+        };
+
+        // Real-time validation
+        Object.keys(fields).forEach(fieldName => {
+            if (fieldName === 'gender') {
+                // Radio buttons validation
+                fields[fieldName].forEach(radio => {
+                    radio.addEventListener('change', () => {
+                        validateGender();
+                        updateSubmitButton();
+                    });
+                });
+            } else {
+                // Input fields validation
+                const field = fields[fieldName];
+                
+                field.addEventListener('blur', () => {
+                    validateField(fieldName);
+                    updateSubmitButton();
+                });
+
+                field.addEventListener('input', () => {
+                    // Clear error while typing
+                    clearError(fieldName);
+                    
+                    // Special handling for password strength
+                    if (fieldName === 'password') {
+                        checkPasswordStrength(field.value);
+                    }
+                    
+                    // Validate confirm password in real-time if password changes
+                    if (fieldName === 'password' && fields.confirmPassword.value) {
+                        validateField('confirmPassword');
+                    }
+                });
+            }
+        });
+
+        function validateField(fieldName) {
+            const field = fields[fieldName];
+            const value = field.value.trim();
+            let isValid = true;
+            let errorMessage = '';
+
+            switch(fieldName) {
+                case 'fullName':
+                    if (value.length < 2) {
+                        isValid = false;
+                        errorMessage = 'Name must be at least 2 characters';
+                    }
+                    break;
+                
+                case 'email':
+                    if (!patterns.email.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid email address';
+                    }
+                    break;
+                
+                case 'phone':
+                    if (value.length < 10 || !patterns.phone.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Please enter a valid phone number';
+                    }
+                    break;
+                
+                case 'password':
+                    if (!patterns.password.test(value)) {
+                        isValid = false;
+                        errorMessage = 'Password must be at least 8 characters with letters and numbers';
+                    }
+                    break;
+                
+                case 'confirmPassword':
+                    if (value !== fields.password.value) {
+                        isValid = false;
+                        errorMessage = 'Passwords do not match';
+                    }
+                    break;
+            }
+
+            updateFieldUI(fieldName, isValid, errorMessage);
+            return isValid;
+        }
+
+        function validateGender() {
+            const isSelected = Array.from(fields.gender).some(radio => radio.checked);
+            const errorEl = document.getElementById('genderError');
+            
+            if (!isSelected) {
+                errorEl.classList.add('show');
+                return false;
+            } else {
+                errorEl.classList.remove('show');
+                return true;
+            }
+        }
+
+        function updateFieldUI(fieldName, isValid, errorMessage) {
+            const field = fields[fieldName];
+            const errorEl = document.getElementById(`${fieldName}Error`);
+            
+            field.classList.remove('error', 'success');
+            
+            if (field.value.trim() === '') {
+                // Empty field - neutral state
+                errorEl.classList.remove('show');
+            } else if (!isValid) {
+                // Invalid
+                field.classList.add('error');
+                errorEl.textContent = errorMessage;
+                errorEl.classList.add('show');
+            } else {
+                // Valid
+                field.classList.add('success');
+                errorEl.classList.remove('show');
+            }
+        }
+
+        function clearError(fieldName) {
+            const field = fields[fieldName];
+            const errorEl = document.getElementById(`${fieldName}Error`);
+            field.classList.remove('error');
+            errorEl.classList.remove('show');
+        }
+
+        function checkPasswordStrength(password) {
+            const strengthEl = document.getElementById('passwordStrength');
+            const barEl = document.getElementById('strengthBar');
+            
+            if (password.length === 0) {
+                strengthEl.classList.remove('show');
+                return;
+            }
+            
+            strengthEl.classList.add('show');
+            
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+            if (password.match(/\d/)) strength++;
+            if (password.match(/[^a-zA-Z\d]/)) strength++;
+            
+            barEl.className = 'password-strength-bar';
+            
+            if (strength <= 1) {
+                barEl.classList.add('strength-weak');
+            } else if (strength === 2) {
+                barEl.classList.add('strength-medium');
+            } else {
+                barEl.classList.add('strength-strong');
+            }
+        }
+
+        function updateSubmitButton() {
+            // Check if all fields are valid
+            const isFullNameValid = fields.fullName.value.trim().length >= 2;
+            const isEmailValid = patterns.email.test(fields.email.value.trim());
+            const isPhoneValid = fields.phone.value.trim().length >= 10 && patterns.phone.test(fields.phone.value.trim());
+            const isPasswordValid = patterns.password.test(fields.password.value);
+            const isConfirmValid = fields.confirmPassword.value === fields.password.value && fields.confirmPassword.value !== '';
+            const isGenderValid = Array.from(fields.gender).some(radio => radio.checked);
+            
+            const allValid = isFullNameValid && isEmailValid && isPhoneValid && 
+                           isPasswordValid && isConfirmValid && isGenderValid;
+            
+            submitBtn.disabled = !allValid;
+        }
+
+        // Form submission
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Validate all fields
+            const validations = [
+                validateField('fullName'),
+                validateField('email'),
+                validateField('phone'),
+                validateField('password'),
+                validateField('confirmPassword'),
+                validateGender()
+            ];
+            
+            if (validations.every(v => v)) {
+                // Show loading state
+                submitBtn.classList.add('loading');
+                submitBtn.disabled = true;
+                
+                // Simulate API call
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Show success message
+                document.getElementById('successEmail').textContent = fields.email.value;
+                registrationForm.classList.add('hidden');
+                successMessage.classList.add('show');
+                
+                // Reset button state
+                submitBtn.classList.remove('loading');
+            }
+        });
+
+        function resetForm() {
+            // Reset all fields
+            form.reset();
+            
+            // Clear all validation states
+            Object.keys(fields).forEach(fieldName => {
+                if (fieldName !== 'gender') {
+                    const field = fields[fieldName];
+                    field.classList.remove('error', 'success');
+                    document.getElementById(`${fieldName}Error`).classList.remove('show');
+                }
+            });
+            
+            document.getElementById('genderError').classList.remove('show');
+            document.getElementById('passwordStrength').classList.remove('show');
+            submitBtn.disabled = false;
+            
+            // Show form again
+            successMessage.classList.remove('show');
+            registrationForm.classList.remove('hidden');
+        }
+
+        // Initialize button state
+        updateSubmitButton();
+    </script>
+</body>
+</html>
